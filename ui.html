@@ -1,0 +1,26 @@
+<h2>Rectangle Creator</h2>
+<p>Count: <input id="count" value="5" /></p>
+<button id="create">Create</button>
+<button data-msg="create-topic">Create Topic</button>
+<button data-msg="connect-topic">Connect Topic</button>
+<button data-msg="inspect">Inspect</button>
+<script>
+  document.getElementById("create").onclick = () => {
+    const textbox = document.getElementById("count");
+    const count = parseInt(textbox.value, 10);
+    parent.postMessage(
+      { pluginMessage: { type: "create-rectangles", count } },
+      "*"
+    );
+  };
+
+
+  Array.from(document.querySelectorAll("button")).forEach((btn) => {
+    const msgid = btn.getAttribute("data-msg");
+    if (msgid) {
+      btn.addEventListener("click", () => {
+        parent.postMessage({ pluginMessage: { type: msgid } }, "*");
+      });
+    }
+  });
+</script>
